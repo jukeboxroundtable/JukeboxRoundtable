@@ -6,6 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link href="/static/css/styles.css" type="text/css" rel="stylesheet"/>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <!-- Latest compiled and minified CSS -->
@@ -28,10 +30,14 @@
 </head>
 <body>
 
-<div id="content">{% block content %}{% endblock %}</div>
-<div id="footer">
-    {% block footer %}
-    {% endblock %}
+{% block content %}{% endblock %}
+
+<div class="container-fluid" align="center">
+    <footer class="footer">
+        <span class="text-muted">
+            About Jukebox Roundable Project
+        </span>
+    </footer>
 </div>
 </body>
 </html>

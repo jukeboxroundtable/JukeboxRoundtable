@@ -1,0 +1,23 @@
+.logo {
+    position: fixed;
+    left: 0;
+    bottom: 80%;
+    width: 100%;
+    text-align: center;
+}
+
+.buttons {
+    position: fixed;
+    bottom: 50%;
+    width: 100%;
+    min-width: 350px;
+    text-align: center;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 2%;
+    width: 100%;
+    text-align: center;
+}
