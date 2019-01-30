@@ -41,7 +41,6 @@ def jukebox(uid):
     """Returns the juxebox page."""
     return render_template('index.html')
 
-
 #############################
 #       Error Routes        #
 #############################
