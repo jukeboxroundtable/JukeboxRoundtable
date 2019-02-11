@@ -1,11 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="logo">
-    <img src="https://i.imgur.com/qDVU5iN.png" class="img-fluid" alt="Logo">
-</div>
+    <div class="logo">
+        <img src="https://i.imgur.com/qDVU5iN.png" class="img-fluid" alt="Logo">
+    </div>
 
-<div class="buttons">
-    <button type="button" class="btn btn-dark btn-lg btn-block">Join Jukebox</button>
-    <button type="button" class="btn btn-dark btn-lg btn-block">Create Jukebox</button>
-</div>
+    <div class="container">
+        <div class="row justify-content-center start-btns">
+            <div class="col-4">
+                <button type="button" class="btn btn-dark btn-lg btn-block">Join Jukebox</button>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn btn-dark btn-lg btn-block">Create Jukebox</button>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

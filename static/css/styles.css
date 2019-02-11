@@ -6,12 +6,9 @@
     text-align: center;
 }
 
-.buttons {
-    position: fixed;
-    bottom: 50%;
-    width: 100%;
-    min-width: 350px;
-    text-align: center;
+.start-btns {
+    position: static;
+    margin-top: 100px;
 }
 
 .footer {
