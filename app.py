@@ -7,26 +7,26 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# cred = credentials.Certificate({
-#     "type": os.environ['FIREBASE_TYPE'],
-#     "project_id": os.environ['FIREBASE_PROJECT_ID'],
-#     "private_key_id": os.environ['FIREBASE_PRIVATE_KEY_ID'],
-#     "private_key": os.environ['FIREBASE_PRIVATE_KEY'].replace("\\n", "\n"),
-#     "client_email": os.environ['FIREBASE_CLIENT_EMAIL'],
-#     "token_uri": os.environ['FIREBASE_TOKEN_URI'],
-# })
-#
-# firebase_admin.initialize_app(
-#     cred,
-#     options={
-#         "databaseURL": os.environ['FIREBASE_DATABASE'],
-#         "projectId": os.environ['FIREBASE_PROJECT_ID'],
-#     }
-# )
-#
-# ARTICLES = db.reference('articles')
+cred = credentials.Certificate({
+    "type": os.environ['FIREBASE_TYPE'],
+    "project_id": os.environ['FIREBASE_PROJECT_ID'],
+    "private_key_id": os.environ['FIREBASE_PRIVATE_KEY_ID'],
+    "private_key": os.environ['FIREBASE_PRIVATE_KEY'].replace("\\n", "\n"),
+    "client_email": os.environ['FIREBASE_CLIENT_EMAIL'],
+    "token_uri": os.environ['FIREBASE_TOKEN_URI'],
+})
 
+firebase_admin.initialize_app(
+    cred,
+    options={
+        "databaseURL": os.environ['FIREBASE_DATABASE'],
+        "projectId": os.environ['FIREBASE_PROJECT_ID'],
+    }
+)
 
+#############################
+#         Home Page         #
+#############################
 @app.route('/')
 def index():
     """Returns the homepage."""
