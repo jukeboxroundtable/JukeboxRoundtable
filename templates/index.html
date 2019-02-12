@@ -5,12 +5,37 @@
     </div>
 
     <div class="container">
-        <div class="row justify-content-center start-btns">
-            <div class="col-4">
-                <button type="button" class="btn btn-dark btn-lg btn-block">Join Jukebox</button>
+        <div class="row start-btns accordion" id="buttonGroup">
+            <div class="col-4 panel">
+                <button type="button" class="btn btn-primary btn-lg btn-block"
+                data-toggle="collapse" data-target="#selection1" data-parent="#buttonGroup">
+                    Join Jukebox
+                </button>
+                <div id="selection1" class="collapse">
+                    <br>
+                      <div class="form-group">
+                          <label for="roomcode">Room Code</label>
+                          <input type="roomcode" class="form-control" id="roomcode">
+                      </div>
+                      <div class="form-group">
+                          <label for="password">Password</label>
+                          <input type="password" class="form-control" id="password">
+                      </div>
+                </div>
             </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-dark btn-lg btn-block">Create Jukebox</button>
+
+            <div class="col-4 panel">
+                <button type="button" class="btn btn-primary btn-lg btn-block"
+                data-toggle="collapse" data-target="#selection2" data-parent="#buttonGroup">
+                    Create Jukebox
+                </button>
+                <div id="selection2" class="collapse">
+                    <br>
+                      <div class="form-group">
+                          <label for="roomcode2">Room Code</label>
+                          <input type="roomcode2" class="form-control" id="roomcode2">
+                      </div>
+                </div>
             </div>
         </div>
     </div>
