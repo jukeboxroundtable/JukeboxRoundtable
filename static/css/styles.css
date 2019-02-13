@@ -1,5 +1,4 @@
 .logo {
-    position: flex;
     text-align: center;
     max-height: 100%;
     max-width: 100%;
@@ -7,14 +6,23 @@
 }
 
 .start-btns {
-    position: flex;
     width: 50%;
     text-align: center;
     margin: auto;
 }
 
 .footer {
-    position: flex;
     width: 100%;
     text-align: center;
+}
+
+.vertical-align {
+    /*min-height: 100%; !* Fallback for browsers do NOT support vh unit *!*/
+    /*min-height: 100vh; !* These two lines are counted as one 🙂       *!*/
+    /*display: flex;*/
+    /*align-items: center;*/
+}
+
+.sign-in-form {
+    text-transform: uppercase;
 }

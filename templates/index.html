@@ -1,50 +1,53 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <div class="logo">
-        <center>
-            <img src="static/images/jukeboxlogo.png" class="img-responsive" alt="Logo">
-        </center>
+    <div class="container">
+        <div class="logo">
+            <center>
+                <img src="/static/images/jukeboxlogo.png" class="img-responsive" alt="Logo">
+            </center>
+        </div>
     </div>
+    <div class="vertical-align">
+        <div class="container">
+            <div class="start-btns">
+                <div class="accordion" id="buttonGroup">
+                    <div class="panel">
+                        <button type="button" class="btn btn-primary btn-lg btn-block"
+                                data-toggle="collapse" data-target="#selection1" data-parent="#buttonGroup">
+                            Join Jukebox
+                        </button>
+                        <div id="selection1" class="collapse">
+                            <br>
+                            <div class="form-group sign-in-form">
+                                <label for="roomcode">Room Code</label>
+                                <input type="text" class="form-control" id="roomcode" placeholder="Partay"
+                                       autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
 
-    <div class="start-btns">
-        <div class="accordion" id="buttonGroup">
-            <div class="col-4 panel">
-                <button type="button" class="btn btn-primary btn-lg btn-block"
-                data-toggle="collapse" data-target="#selection1" data-parent="#buttonGroup">
-                    Join Jukebox
-                </button>
-                <div id="selection1" class="collapse">
-                    <br>
-                      <div class="form-group">
-                          <label for="roomcode">Room Code</label>
-                          <input type="roomcode" class="form-control" id="roomcode">
-                      </div>
-                      <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" class="form-control" id="password">
-                      </div>
-                </div>
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="(Optional)">
+                            </div>
+                        </div>
 
-                <br>
+                        <br>
 
-                <button type="button" class="btn btn-primary btn-lg btn-block"
-                data-toggle="collapse" data-target="#selection2" data-parent="#buttonGroup">
-                    Create Jukebox
-                </button>
-                <div id="selection2" class="collapse">
-                    <br>
-                      <div class="form-group">
-                          <label for="roomcode2">Room Code</label>
-                          <input type="roomcode2" class="form-control" id="roomcode2">
-                      </div>
-                      <div class="form-group">
-                          <label for="password2">Password</label>
-                          <input type="password2" class="form-control" id="password2">
-                      </div>
+                        <button type="button" class="btn btn-primary btn-lg btn-block"
+                                data-toggle="collapse" data-target="#selection2" data-parent="#buttonGroup">
+                            Create Jukebox
+                        </button>
+                        <div id="selection2" class="collapse">
+                            <br>
+                            <div class="form-group sign-in-form">
+                                <label for="roomcode2">Room Code</label>
+                                <input type="text" class="form-control" id="roomcode2" placeholder="Partay"
+                                       autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
+
+                                <label for="password2">Password</label>
+                                <input type="password" class="form-control" id="password2" placeholder="(Optional)">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock content %}
