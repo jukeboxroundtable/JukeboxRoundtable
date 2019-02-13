@@ -17,16 +17,17 @@ cred = credentials.Certificate({
 })
 
 firebase_admin.initialize_app(
-  cred,
-  options={
-      "databaseURL": os.environ['FIREBASE_DATABASE'],
-      "projectId": os.environ['FIREBASE_PROJECT_ID'],
-  }
+    cred,
+    options={
+        "databaseURL": os.environ['FIREBASE_DATABASE'],
+        "projectId": os.environ['FIREBASE_PROJECT_ID'],
+    }
 )
 
-ARTICLES = db.reference('articles')
 
-
+#############################
+#         Home Page         #
+#############################
 @app.route('/')
 def index():
     """Returns the homepage."""
@@ -40,6 +41,7 @@ def index():
 def jukebox(uid):
     """Returns the juxebox page."""
     return render_template('jukebox.html')
+
 
 #############################
 #       Error Routes        #
