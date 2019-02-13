@@ -1,7 +1,9 @@
 .logo {
     position: flex;
-    width: 100%;
     text-align: center;
+    max-height: 100%;
+    max-width: 100%;
+    margin: auto;
 }
 
 .start-btns {
