@@ -1,24 +1,18 @@
 .logo {
-    position: fixed;
-    bottom: 85%;
+    position: flex;
     width: 100%;
     text-align: center;
 }
 
 .start-btns {
-    position: fixed;
-    bottom: 45%;
-    width: 40%;
-    right: 0;
-    left: 30%;
-    margin-right: auto;
-    margin-left: auto;
+    position: flex;
+    width: 50%;
     text-align: center;
+    margin: auto;
 }
 
 .footer {
-    position: fixed;
-    bottom: 2%;
+    position: flex;
     width: 100%;
     text-align: center;
 }
