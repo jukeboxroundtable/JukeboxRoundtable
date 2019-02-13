@@ -2,8 +2,7 @@ dist: trusty
 addons:
   sonarcloud:
     organization: "jukeboxroundtable"
-    token:
-      secure: SONAR_TOKEN
+    token: SONAR_TOKEN
 language: python
 python:
 - "3.6"
