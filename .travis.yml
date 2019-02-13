@@ -1,5 +1,13 @@
+dist: trusty
+addons:
+  sonarcloud:
+    organization: "jukeboxroundtable"
+    token:
+      secure: SONAR_TOKEN
 language: python
 python:
- - "3.6"
+- "3.6"
 install: pip install -r requirements.txt
-script: nose2 -v
+script:
+- nose2 -v
+- sonar-scanner
