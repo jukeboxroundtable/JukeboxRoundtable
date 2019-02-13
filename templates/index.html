@@ -10,42 +10,24 @@
     <div class="vertical-align">
         <div class="container">
             <div class="start-btns">
-                <div class="accordion" id="buttonGroup">
+                <div id="buttonGroup">
                     <div class="panel">
-                        <button type="button" class="btn btn-primary btn-lg btn-block"
-                                data-toggle="collapse" data-target="#selection1" data-parent="#buttonGroup">
-                            Join Jukebox
-                        </button>
-                        <div id="selection1" class="collapse">
-                            <br>
-                            <div class="form-group sign-in-form">
-                                <label for="roomcode">Room Code</label>
-                                <input type="text" class="form-control" id="roomcode" placeholder="Partay"
-                                       autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
+                        <div class="form-group sign-in-form">
+                            <label for="roomcode">Room Code</label>
+                            <input type="text" class="form-control" id="roomcode" placeholder="Partay"
+                                   autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
 
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="(Optional)">
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <button type="button" class="btn btn-primary btn-lg btn-block"
-                                data-toggle="collapse" data-target="#selection2" data-parent="#buttonGroup">
-                            Create Jukebox
-                        </button>
-                        <div id="selection2" class="collapse">
-                            <br>
-                            <div class="form-group sign-in-form">
-                                <label for="roomcode2">Room Code</label>
-                                <input type="text" class="form-control" id="roomcode2" placeholder="Partay"
-                                       autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
-
-                                <label for="password2">Password</label>
-                                <input type="password" class="form-control" id="password2" placeholder="(Optional)">
-                            </div>
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="(Optional)">
                         </div>
                     </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-parent="#buttonGroup">
+                        Join Jukebox
+                    </button>
+                    <br>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-parent="#buttonGroup">
+                        Create Jukebox
+                    </button>
                 </div>
             </div>
         </div>
