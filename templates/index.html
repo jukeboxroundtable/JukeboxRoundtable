@@ -9,23 +9,24 @@
     </div>
     <div class="vertical-align">
         <div class="container">
-            <div class="start-btns">
-                <div id="buttonGroup">
+            <div style="align-items: center; display: flex; padding-top: 20vh; flex-wrap: wrap;">
+                <div class="form-layout">
                     <div class="panel">
                         <div class="form-group sign-in-form">
                             <label for="roomcode">Room Code</label>
                             <input type="text" class="form-control" id="roomcode" placeholder="Partay"
                                    autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
-
+                            <br>
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" placeholder="(Optional)">
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" data-parent="#buttonGroup">
+                </div>
+                <div style="text-align: center; width: 100%;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="text-align:center;">
                         Join Jukebox
                     </button>
-                    <br>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" data-parent="#buttonGroup">
+                    <button type="submit" class="btn btn-primary btn-lg">
                         Create Jukebox
                     </button>
                 </div>
