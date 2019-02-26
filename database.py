@@ -4,6 +4,10 @@ from firebase_admin import db, credentials
 
 
 class Firebase:
+    """Find more information about the Firebase API here:
+
+    https://firebase.google.com/docs/reference/admin/python/firebase_admin.db
+    """
     def __init__(self):
         self.cred = credentials.Certificate({
             "type": os.environ['FIREBASE_TYPE'],
