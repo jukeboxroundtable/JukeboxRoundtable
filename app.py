@@ -1,23 +1,41 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, abort
+from database import Firebase
 
 app = Flask(__name__)
+db = Firebase()
+
 
 #############################
 #         Home Page         #
 #############################
 @app.route('/')
-def index():
+def index(**kwargs):
     """Returns the homepage."""
-    return render_template('index.html')
+    return render_template('index.html', **kwargs)
 
 
 #############################
 #         Juxeboxes         #
 #############################
-@app.route('/<uid>')
-def jukebox(uid):
+@app.route('/<name>')
+def jukebox(name):
     """Returns the juxebox page."""
-    return render_template('jukebox.html')
+    jukebox = db.get_jukebox(name)
+
+    if db.get_jukebox(name) is None:
+        abort(404)
+    else:
+        return render_template('jukebox.html')
+
+
+@app.route('/create_jukebox', methods=['POST'])
+def create_jukebox():
+    name = request.form['name']
+    password = request.form['password']
+    if db.add_jukebox(name, password, True):
+        return redirect('/{name}'.format(name=name))
+    else:
+        return redirect(url_for('index'))
 
 
 #############################

@@ -9,27 +9,32 @@
     </div>
     <div class="vertical-align">
         <div class="container">
-            <div style="align-items: center; display: flex; padding-top: 20vh; flex-wrap: wrap;">
-                <div class="form-layout">
-                    <div class="panel">
-                        <div class="form-group sign-in-form">
-                            <label for="roomcode">Room Code</label>
-                            <input type="text" class="form-control" id="roomcode" placeholder="Partay"
-                                   autocapitalize="off" autocorrect="off" autocomplete="off" maxlength="10">
-                            <br>
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="(Optional)">
+            <div>
+                <form style="align-items: center; display: flex; padding-top: 20vh; flex-wrap: wrap;"
+                      action="{{ url_for ('create_jukebox') }}" method="post">
+                    <div class="form-layout">
+                        <div class="panel">
+                            <div class="form-group sign-in-form">
+                                <label for="roomcode">Room Code</label>
+                                <input name="name" value="{{ name }}" type="text" class="form-control" id="roomcode"
+                                       placeholder="Partay" autocapitalize="off" autocorrect="off" autocomplete="off"
+                                       maxlength="10">
+                                <br>
+                                <label for="password">Password</label>
+                                <input name="password" type="password" class="form-control" id="password"
+                                       placeholder="(Optional)">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div style="text-align: center; width: 100%;">
-                    <button type="submit" class="btn btn-primary btn-lg" style="text-align:center;">
-                        Join Jukebox
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        Create Jukebox
-                    </button>
-                </div>
+                    <div style="text-align: center; width: 100%;">
+                        <button type="submit" class="btn btn-primary btn-lg" style="text-align:center;">
+                            Join Jukebox
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            Create Jukebox
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

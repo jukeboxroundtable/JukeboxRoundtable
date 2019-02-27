@@ -63,15 +63,17 @@ class Firebase:
         """
         ref = db.reference('/')
 
+        # Check if there is a jukebox with that name
         if self.get_jukebox(name) is not None:
-            print("can't add")
-        else:
-            print("adding...")
-            ref.update({
-                name: {
-                    'passcode': passcode,
-                    'party_mode': party
-                }})
+            return False
+
+        ref.update({
+            name: {
+                'passcode': passcode,
+                'party_mode': party
+            }
+        })
+        return True
 
     def remove_jukebox(self, name):
         """Remove the jukebox with the given name from the database.
