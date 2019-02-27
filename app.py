@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, abort
 from database import Firebase
 
+
 app = Flask(__name__)
 db = Firebase()
 
@@ -9,10 +10,10 @@ db = Firebase()
 #         Home Page         #
 #############################
 @app.route('/')
-def index(**kwargs):
+def index():
     """Returns the homepage."""
 
-    return render_template('index.html', **kwargs)
+    return render_template('index.html')
 
 
 #############################
@@ -21,9 +22,11 @@ def index(**kwargs):
 @app.route('/<name>')
 def jukebox(name):
     """Returns the juxebox page."""
+    name = name.upper()[:10]
+
     jukebox = db.get_jukebox(name)
 
-    if db.get_jukebox(name) is None:
+    if jukebox is None:
         abort(404)
     else:
         return render_template('jukebox.html')
@@ -31,8 +34,9 @@ def jukebox(name):
 
 @app.route('/create_jukebox', methods=['POST'])
 def create_jukebox():
-    name = request.form['name']
+    name = request.form['name'].upper()[:10]
     password = request.form['password']
+
     if db.add_jukebox(name, password, True):
         return redirect('/{name}'.format(name=name))
     else:
