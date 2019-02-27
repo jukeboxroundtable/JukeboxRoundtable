@@ -11,6 +11,7 @@ db = Firebase()
 @app.route('/')
 def index(**kwargs):
     """Returns the homepage."""
+
     return render_template('index.html', **kwargs)
 
 

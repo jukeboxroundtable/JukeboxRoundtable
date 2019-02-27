@@ -1,6 +1,7 @@
 import os
 import firebase_admin
 from firebase_admin import db, credentials
+import bcrypt
 
 
 class Firebase:
@@ -38,7 +39,7 @@ class Firebase:
                           remote database server.
 
         Returns:
-            Union[List[Object], OrderedDict]: A reference to the jukebox.
+            Union[List[Object], OrderedDict, None]: A reference to the jukebox.
         """
         return db.reference("/{name}".format(name=name)).get()
 
@@ -67,12 +68,23 @@ class Firebase:
         if self.get_jukebox(name) is not None:
             return False
 
-        ref.update({
-            name: {
-                'passcode': passcode,
-                'party_mode': party
-            }
-        })
+        if passcode:
+            salt = bcrypt.gensalt()
+            password = bcrypt.hashpw(bytes(passcode, 'utf-8'), salt).decode('utf-8')
+
+            ref.update({
+                name: {
+                    'password': password,
+                    'party_mode': party
+                }
+            })
+        else:
+            ref.update({
+                name: {
+                    'party_mode': party
+                }
+            })
+
         return True
 
     def remove_jukebox(self, name):
@@ -101,11 +113,17 @@ class Firebase:
             ApiCallError: If an error occurs while communicating with the
                           remote database server.
 
-        TODO:
-            - Update return value; get rid of prints.
-            - Hash passcode; database admin shouldn't be able to see it.
+        Returns:
+            True if there is no password or the password matches.
+            False if the jukebox doesn't exist or if the password doesn't match.
         """
-        if self.get_jukebox(name)['passcode'] == passcode:
-            print("authenticated")
-        else:
-            print("not the correct passcode.")
+        jukebox = self.get_jukebox(name)
+
+        if jukebox is None:
+            return False
+
+        hashed_password = jukebox.get('password')
+        if hashed_password is None:
+            return True
+
+        return bcrypt.checkpw(passcode.encode(), hashed_password.encode())
