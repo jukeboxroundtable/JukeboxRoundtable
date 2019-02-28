@@ -10,8 +10,10 @@
     <div class="vertical-align">
         <div class="container">
             <div>
-                <form style="align-items: center; display: flex; padding-top: 20vh; flex-wrap: wrap;"
-                      action="{{ url_for ('create_jukebox') }}" method="post">
+                {% if error %}
+                    <p><strong>{{ error }}</strong></p>
+                {% endif %}
+                <form id="info" style="align-items: center; display: flex; padding-top: 20vh; flex-wrap: wrap;" action="{{ url_for('index') }}" method="post">
                     <div class="form-layout">
                         <div class="panel">
                             <div class="form-group sign-in-form">
@@ -27,12 +29,10 @@
                         </div>
                     </div>
                     <div style="text-align: center; width: 100%;">
-                        <button type="submit" class="btn btn-primary btn-lg" style="text-align:center;">
-                            Join Jukebox
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            Create Jukebox
-                        </button>
+                        <input id="join-jukebox" name="join" type="submit" class="btn btn-primary btn-lg"
+                               style="text-align:center;" value="Join Jukebox">
+                        <input id="create_jukebox" name="create" type="submit" class="btn btn-primary btn-lg"
+                               value="Create Jukebox">
                     </div>
                 </form>
             </div>

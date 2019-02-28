@@ -9,11 +9,17 @@ db = Firebase()
 #############################
 #         Home Page         #
 #############################
-@app.route('/')
+@app.route('/', methods=('GET', 'POST'))
 def index():
     """Returns the homepage."""
-
-    return render_template('index.html')
+    if request.method == 'POST':
+        if request.form.get('create'):
+            return create_jukebox()
+        elif request.form.get('join'):
+            return join_jukebox()
+        return render_template('index.html')
+    elif request.method == 'GET':
+        return render_template('index.html')
 
 
 #############################
@@ -32,15 +38,35 @@ def jukebox(name):
         return render_template('jukebox.html')
 
 
-@app.route('/create_jukebox', methods=['POST'])
+def join_jukebox():
+    name = request.form['name'].upper()[:10]
+    password = request.form['password']
+
+    error = db.auth_user(name, password)
+    if error:
+        return render_template('index.html', name=name, error=error)
+    else:
+        return redirect('/{name}'.format(name=name))
+
+
 def create_jukebox():
     name = request.form['name'].upper()[:10]
     password = request.form['password']
 
-    if db.add_jukebox(name, password, True):
-        return redirect('/{name}'.format(name=name))
+    error = db.add_jukebox(name, password, True)
+    if error:
+        return render_template('index.html', name=name, error=error)
     else:
-        return redirect(url_for('index'))
+        return redirect('/{name}'.format(name=name))
+
+
+
+#############################
+#           About           #
+#############################
+@app.route('/about')
+def about():
+    return "Not yet implemented."
 
 
 #############################

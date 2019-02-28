@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>JukeboxRT</title>
+
 
         <link href="/static/css/styles.css" type="text/css" rel="stylesheet"/>
 
@@ -25,7 +27,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
                 crossorigin="anonymous"></script>
 
-        <title>JukeboxRT</title>
+        {% block scripts %}{% endblock scripts %}
     {% endblock %}
 </head>
 <body>
@@ -35,7 +37,7 @@
 <div class="container-fluid navbar navbar-fixed-bottom" align="center">
     <footer class="footer">
         <span class="text-muted">
-            About Jukebox Roundable Project
+            <a href="{{ url_for('about') }}">About Jukebox Roundable Project</a>
         </span>
     </footer>
 </div>

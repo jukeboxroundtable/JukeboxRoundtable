@@ -9,6 +9,12 @@ class Firebase:
 
     https://firebase.google.com/docs/reference/admin/python/firebase_admin.db
     """
+    errors = {
+        'exists': 'A jukebox with this name already exists!',
+        'not_exists': 'A jukebox with this name does not exist!',
+        'bad_password': 'The password is incorrect!',
+    }
+
     def __init__(self):
         self.cred = credentials.Certificate({
             "type": os.environ['FIREBASE_TYPE'],
@@ -39,7 +45,7 @@ class Firebase:
                           remote database server.
 
         Returns:
-            Union[List[Object], OrderedDict, None]: A reference to the jukebox.
+            Union[str, None]: An error message on error or None if no error.
         """
         return db.reference("/{name}".format(name=name)).get()
 
@@ -66,7 +72,7 @@ class Firebase:
 
         # Check if there is a jukebox with that name
         if self.get_jukebox(name) is not None:
-            return False
+            return Firebase.errors['exists']
 
         if passcode:
             salt = bcrypt.gensalt()
@@ -85,7 +91,7 @@ class Firebase:
                 }
             })
 
-        return True
+        return None
 
     def remove_jukebox(self, name):
         """Remove the jukebox with the given name from the database.
@@ -114,16 +120,19 @@ class Firebase:
                           remote database server.
 
         Returns:
-            True if there is no password or the password matches.
-            False if the jukebox doesn't exist or if the password doesn't match.
+            Union[str, None]: An error message if there was an error,
+                              None otherwise.
         """
         jukebox = self.get_jukebox(name)
 
         if jukebox is None:
-            return False
+            return Firebase.errors['not_exists']
 
         hashed_password = jukebox.get('password')
         if hashed_password is None:
-            return True
+            return None
 
-        return bcrypt.checkpw(passcode.encode(), hashed_password.encode())
+        if not bcrypt.checkpw(passcode.encode(), hashed_password.encode()):
+            return Firebase.errors['bad_password']
+
+        return None
