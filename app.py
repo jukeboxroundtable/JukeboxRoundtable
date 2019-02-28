@@ -16,6 +16,14 @@ db = Firebase()
 
 
 #############################
+#          Sessions         #
+#############################
+def create_session(name):
+    session['party'] = name
+    session['token'] = uuid.uuid4().hex
+
+
+#############################
 #         Home Page         #
 #############################
 @app.route('/', methods=('GET', 'POST'))
@@ -28,7 +36,6 @@ def index():
             return join_jukebox()
         return render_template('index.html')
     elif request.method == 'GET':
-        print(session)
         if 'party' in session:
             return redirect(url_for('jukebox', name=session['party']))
         return render_template('index.html')
@@ -47,9 +54,7 @@ def jukebox(name):
     if jukebox is None:
         abort(404)
     else:
-        print("HERE")
         if 'party' in session:
-            print("HERE2")
             if session['party'] == name:
                 return render_template('jukebox.html')
             else:
@@ -65,8 +70,7 @@ def join_jukebox():
     if error:
         return render_template('index.html', name=name, error=error)
     else:
-        session['party'] = name
-        session['token'] = uuid.uuid4().hex
+        create_session(name)
         return redirect('/{name}'.format(name=name))
 
 
@@ -78,8 +82,7 @@ def create_jukebox():
     if error:
         return render_template('index.html', name=name, error=error)
     else:
-        session['party'] = name
-        session['token'] = uuid.uuid4().hex
+        create_session(name)
         return redirect('/{name}'.format(name=name))
 
 
