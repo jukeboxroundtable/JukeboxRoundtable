@@ -3,3 +3,4 @@ gunicorn
 firebase_admin
 nose2
 bcrypt
+flask_login

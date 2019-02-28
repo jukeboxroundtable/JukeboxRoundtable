@@ -1,8 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+import datetime
+import os
+import uuid
+
+from flask import Flask, render_template, request, redirect, abort, session, \
+    url_for
+
 from database import Firebase
 
-
 app = Flask(__name__)
+app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
+app.permanent_session_lifetime = datetime.timedelta(minutes=10)
+app.session_cookie_secure = True
+
 db = Firebase()
 
 
@@ -19,6 +28,9 @@ def index():
             return join_jukebox()
         return render_template('index.html')
     elif request.method == 'GET':
+        print(session)
+        if 'party' in session:
+            return redirect(url_for('jukebox', name=session['party']))
         return render_template('index.html')
 
 
@@ -35,7 +47,14 @@ def jukebox(name):
     if jukebox is None:
         abort(404)
     else:
-        return render_template('jukebox.html')
+        print("HERE")
+        if 'party' in session:
+            print("HERE2")
+            if session['party'] == name:
+                return render_template('jukebox.html')
+            else:
+                return redirect(url_for('jukebox', name=session['party']))
+        return redirect(url_for('index'))
 
 
 def join_jukebox():
@@ -46,6 +65,8 @@ def join_jukebox():
     if error:
         return render_template('index.html', name=name, error=error)
     else:
+        session['party'] = name
+        session['token'] = uuid.uuid4().hex
         return redirect('/{name}'.format(name=name))
 
 
@@ -57,8 +78,9 @@ def create_jukebox():
     if error:
         return render_template('index.html', name=name, error=error)
     else:
+        session['party'] = name
+        session['token'] = uuid.uuid4().hex
         return redirect('/{name}'.format(name=name))
-
 
 
 #############################
