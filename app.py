@@ -9,8 +9,8 @@ from database import Firebase
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
-app.permanent_session_lifetime = datetime.timedelta(minutes=10)
-app.session_cookie_secure = True
+# app.permanent_session_lifetime = datetime.timedelta(minutes=10)
+# app.session_cookie_secure = True
 
 db = Firebase()
 
