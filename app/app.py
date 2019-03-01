@@ -1,11 +1,10 @@
-import datetime
 import os
 import uuid
 
 from flask import Flask, render_template, request, redirect, abort, session, \
     url_for
 
-from database import Firebase
+from app.db import Firebase
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
@@ -36,6 +35,7 @@ def index():
             return join_jukebox()
         return render_template('index.html')
     elif request.method == 'GET':
+        print(session)
         if 'party' in session:
             return redirect(url_for('jukebox', name=session['party']))
         return render_template('index.html')
@@ -49,17 +49,17 @@ def jukebox(name):
     """Returns the juxebox page."""
     name = name.upper()[:10]
 
-    jukebox = db.get_jukebox(name)
+    print(session)
+    if 'party' in session:
+        if session['party'] == name:
+            return render_template('jukebox.html')
+        else:
+            return redirect(url_for('jukebox', name=session['party']))
 
-    if jukebox is None:
+    if db.get_jukebox(name) is None:
         abort(404)
-    else:
-        if 'party' in session:
-            if session['party'] == name:
-                return render_template('jukebox.html')
-            else:
-                return redirect(url_for('jukebox', name=session['party']))
-        return redirect(url_for('index'))
+
+    return redirect(url_for('index'))
 
 
 def join_jukebox():
