@@ -74,7 +74,7 @@ def validate_input(name):
         return "Your party name is too long!"
     if len(name) < 1:
         return "Your party name is too short!"
-    if name.isalpha():
+    if not name.isalpha():
         return "Your party name must consist of alphabetic characters only!"
 
 
