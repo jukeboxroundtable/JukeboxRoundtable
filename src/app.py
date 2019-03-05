@@ -18,6 +18,14 @@ db = Firebase()
 #          Sessions         #
 #############################
 def create_session(name):
+    """Create a new session.
+
+    Sessions should contain a key for the party name and a key for a randomly
+    generated token.
+
+    Args:
+        name (str): The name of a jukebox the user joined.
+    """
     session['party'] = name
     session['token'] = uuid.uuid4().hex
 
@@ -29,10 +37,19 @@ def create_session(name):
 def index():
     """Returns the homepage."""
     if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
+
+        error = validate_input(name)
+        if error is not None:
+            return render_template('index.html', name=name, error=error)
+
+        name = name.upper()
         if request.form.get('create'):
-            return create_jukebox()
+            return create_jukebox(name, password)
         elif request.form.get('join'):
-            return join_jukebox()
+            return join_jukebox(name, password)
+
         return render_template('index.html')
     elif request.method == 'GET':
         print(session)
@@ -41,12 +58,39 @@ def index():
         return render_template('index.html')
 
 
+def validate_input(name):
+    """Check that the user supplied name conforms to our standards.
+
+    A name should be between 1-10 characters (inclusive) and composed of all
+    alphabetic characters.
+
+    Args:
+        name (str): The name to be validated.
+
+    Returns:
+        An error message if the name is invalid, otherwise None.
+    """
+    if len(name) > 10:
+        return "Your party name is too long!"
+    if len(name) < 1:
+        return "Your party name is too short!"
+    if name.isalpha():
+        return "Your party name must consist of alphabetic characters only!"
+
+
 #############################
 #         Juxeboxes         #
 #############################
-@app.route('/<name>')
+@app.route('/<name>', methods=['GET'])
 def jukebox(name):
-    """Returns the juxebox page."""
+    """Returns the juxebox page.
+
+    Args:
+        name (str): The name of the jukebox.
+
+    Returns:
+        The jukebox page if it exists.
+    """
     name = name.upper()[:10]
 
     print(session)
@@ -62,28 +106,40 @@ def jukebox(name):
     return redirect(url_for('index'))
 
 
-def join_jukebox():
-    name = request.form['name'].upper()[:10]
-    password = request.form['password']
+def join_jukebox(name, password):
+    """Join a jukebox.
 
+    Args:
+        name (str): The name of the jukebox.
+        password (str): The password of the jukebox.
+
+    Returns:
+        The jukebox page if authorization successful, otherwise the homepage.
+    """
     error = db.auth_user(name, password)
     if error:
         return render_template('index.html', name=name, error=error)
-    else:
-        create_session(name)
-        return redirect('/{name}'.format(name=name))
+
+    create_session(name)
+    return redirect('/{name}'.format(name=name))
 
 
-def create_jukebox():
-    name = request.form['name'].upper()[:10]
-    password = request.form['password']
+def create_jukebox(name, password):
+    """Create a jukebox.
 
+    Args:
+        name (str): The name of the jukebox.
+        password (str): The password of the jukebox.
+
+    Returns:
+        The jukebox page if authorization successful, otherwise the homepage.
+    """
     error = db.add_jukebox(name, password, True)
     if error:
         return render_template('index.html', name=name, error=error)
-    else:
-        create_session(name)
-        return redirect('/{name}'.format(name=name))
+
+    create_session(name)
+    return redirect('/{name}'.format(name=name))
 
 
 #############################
@@ -91,6 +147,7 @@ def create_jukebox():
 #############################
 @app.route('/about')
 def about():
+    """Show the about page."""
     return "Not yet implemented."
 
 
@@ -99,6 +156,7 @@ def about():
 #############################
 @app.errorhandler(404)
 def page_not_found(e):
+    """Show the 404 page."""
     return render_template('404.html'), 404
 
 
