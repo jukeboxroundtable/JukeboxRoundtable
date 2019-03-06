@@ -15,6 +15,29 @@ db = Firebase()
 
 
 #############################
+#      CSRF Protection      #
+#############################
+# For more information: http://flask.pocoo.org/snippets/3/
+# https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md
+@app.before_request
+def csrf_protect():
+    """Protect against Cross-Site Forgery attacks."""
+    if request.method == "POST":
+        token = session.pop('_csrf_token', None)
+        if not token or token != request.form.get('_csrf_token'):
+            abort(403)
+
+
+def generate_csrf_token():
+    if '_csrf_token' not in session:
+        session['_csrf_token'] = uuid.uuid4().hex
+    return session['_csrf_token']
+
+
+app.jinja_env.globals['csrf_token'] = generate_csrf_token
+
+
+#############################
 #          Sessions         #
 #############################
 def create_session(name):
@@ -37,8 +60,8 @@ def create_session(name):
 def index():
     """Returns the homepage."""
     if request.method == 'POST':
-        name = request.form['name']
-        password = request.form['password']
+        name = request.form.get('name', None)
+        password = request.form.get('password', None)
 
         error = validate_input(name)
         if error is not None:
@@ -52,9 +75,9 @@ def index():
 
         return render_template('index.html')
     elif request.method == 'GET':
-        print(session)
         if 'party' in session:
             return redirect(url_for('jukebox', name=session['party']))
+
         return render_template('index.html')
 
 
@@ -70,10 +93,12 @@ def validate_input(name):
     Returns:
         An error message if the name is invalid, otherwise None.
     """
+    if name is None:
+        return "You must supply a name!"
     if len(name) > 10:
         return "Your party name is too long!"
     if len(name) < 1:
-        return "Your party name is too short!"
+        return "Your party name must be at least 1 letter!"
     if not name.isalpha():
         return "Your party name must consist of alphabetic characters only!"
 
@@ -93,7 +118,6 @@ def jukebox(name):
     """
     name = name.upper()[:10]
 
-    print(session)
     if 'party' in session:
         if session['party'] == name:
             return render_template('jukebox.html')

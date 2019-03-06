@@ -25,6 +25,7 @@
                                 <label for="password">Password</label>
                                 <input name="password" type="password" class="form-control" id="password"
                                        placeholder="(Optional)">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                             </div>
                         </div>
                     </div>
