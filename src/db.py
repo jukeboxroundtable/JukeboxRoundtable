@@ -71,7 +71,7 @@ class Firebase:
         ref = db.reference('/')
 
         # Check if there is a jukebox with that name
-        if self.get_jukebox(name) is not None:
+        if self.get_jukebox(name):
             return Firebase.errors['exists']
 
         if passcode:
@@ -125,11 +125,11 @@ class Firebase:
         """
         jukebox = self.get_jukebox(name)
 
-        if jukebox is None:
+        if not jukebox:
             return Firebase.errors['not_exists']
 
         hashed_password = jukebox.get('password')
-        if hashed_password is None:
+        if not hashed_password:
             return None
 
         if not bcrypt.checkpw(passcode.encode(), hashed_password.encode()):

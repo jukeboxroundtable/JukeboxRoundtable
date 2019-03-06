@@ -10,6 +10,14 @@ class AppTest(unittest.TestCase):
         response = self.app.get('/')
         self.assertEqual(200, response.status_code)
 
+    def test_about(self):
+        response = self.app.get('/about')
+        self.assertEqual(200, response.status_code)
+
+    def test_404(self):
+        response = self.app.get('/TESTING404')
+        self.assertEqual(404, response.status_code)
+
     def test_validate_input(self):
         for i, name in enumerate([None, "", "AAAAAAAAAAA", "A12"]):
             with self.subTest(i=i):
