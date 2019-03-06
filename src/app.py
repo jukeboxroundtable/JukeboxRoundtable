@@ -17,7 +17,8 @@ db = Firebase()
 #############################
 #      CSRF Protection      #
 #############################
-# For more information: http://flask.pocoo.org/snippets/3/
+# For more information:
+# http://flask.pocoo.org/snippets/3/
 # https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md
 @app.before_request
 def csrf_protect():
@@ -64,7 +65,7 @@ def index():
         password = request.form.get('password', None)
 
         error = validate_input(name)
-        if error is not None:
+        if not error:
             return render_template('index.html', name=name, error=error)
 
         name = name.upper()
@@ -118,11 +119,12 @@ def jukebox(name):
     """
     name = name.upper()[:10]
 
-    if 'party' in session:
-        if session['party'] == name:
+    party = session.get('party', None)
+    if party:
+        if party == name:
             return render_template('jukebox.html')
         else:
-            return redirect(url_for('jukebox', name=session['party']))
+            return redirect(url_for('jukebox', name=party))
 
     if db.get_jukebox(name) is None:
         abort(404)
