@@ -1,11 +1,19 @@
 import unittest
+
+import firebase_admin
+
 from src import app
 
 
 class AppTest(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         app.app.config['TESTING'] = True
-        self.app = app.app.test_client()
+        cls.app = app.app.test_client()
+
+    @classmethod
+    def tearDownClass(cls):
+        firebase_admin.delete_app(app.db.app)
 
     def test_index(self):
         response = self.app.get('/')
@@ -32,6 +40,37 @@ class AppTest(unittest.TestCase):
             app.create_session(name)
             self.assertEqual(name, app.session.get('party', None))
             self.assertTrue('token' in app.session)
+
+    def test_add_jukebox_auth_user_remove_jukebox_with_password(self):
+        name = 'testingWithPassword'
+        password = 'testing'
+
+        self.assertEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(app.Firebase.errors['not_exists'], app.db.auth_user(name, password))
+
+        self.assertEqual(None, app.db.add_jukebox(name, password, party=True))
+        self.assertEqual(app.Firebase.errors['exists'], app.db.add_jukebox(name, password, party=True))
+        self.assertNotEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(None, app.db.auth_user(name, password))
+        self.assertEqual(app.Firebase.errors['bad_password'], app.db.auth_user(name, ''))
+
+        app.db.remove_jukebox(name)
+        self.assertEqual(None, app.db.get_jukebox(name))
+
+    def test_add_jukebox_auth_user_remove_jukebox_no_password(self):
+        name = 'testingWithoutPassword'
+        password = None
+
+        self.assertEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(app.Firebase.errors['not_exists'], app.db.auth_user(name, password))
+
+        self.assertEqual(None, app.db.add_jukebox(name, password, party=True))
+        self.assertEqual(app.Firebase.errors['exists'], app.db.add_jukebox(name, password, party=True))
+        self.assertNotEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(None, app.db.auth_user(name, password))
+
+        app.db.remove_jukebox(name)
+        self.assertEqual(None, app.db.get_jukebox(name))
 
 
 if __name__ == '__main__':
