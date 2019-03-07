@@ -174,7 +174,7 @@ def create_jukebox(name, password):
 @app.route('/about')
 def about():
     """Show the about page."""
-    return "Not yet implemented."
+    return render_template('about.html')
 
 
 #############################

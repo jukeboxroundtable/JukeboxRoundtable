@@ -31,15 +31,16 @@
     {% endblock %}
 </head>
 <body>
-
 {% block content %}{% endblock %}
 
-<div class="container-fluid navbar navbar-fixed-bottom" align="center">
-    <footer class="footer">
+{% block footer %}
+    <div class="container-fluid navbar navbar-fixed-bottom" align="center">
+        <footer class="footer">
         <span class="text-muted">
             <a href="{{ url_for('about') }}">About Jukebox Roundable Project</a>
         </span>
-    </footer>
-</div>
+        </footer>
+    </div>
+{% endblock footer %}
 </body>
 </html>
