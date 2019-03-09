@@ -65,7 +65,7 @@ def index():
         password = request.form.get('password', None)
 
         error = validate_input(name)
-        if not error:
+        if error:
             return render_template('index.html', name=name, error=error)
 
         name = name.upper()
