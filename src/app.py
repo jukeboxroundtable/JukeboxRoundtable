@@ -77,7 +77,7 @@ def index():
         return render_template('index.html')
     elif request.method == 'GET':
         if 'party' in session:
-            return redirect(url_for('jukebox', name=session['party']))
+            return render_template('jukebox.html')
 
         return render_template('index.html')
 
@@ -104,34 +104,6 @@ def validate_input(name):
         return "Your party name must consist of alphabetic characters only!"
 
 
-#############################
-#         Juxeboxes         #
-#############################
-@app.route('/<name>', methods=['GET'])
-def jukebox(name):
-    """Returns the juxebox page.
-
-    Args:
-        name (str): The name of the jukebox.
-
-    Returns:
-        The jukebox page if it exists.
-    """
-    name = name.upper()[:10]
-
-    party = session.get('party', None)
-    if party:
-        if party == name:
-            return render_template('jukebox.html')
-        else:
-            return redirect(url_for('jukebox', name=party))
-
-    if db.get_jukebox(name) is None:
-        abort(404)
-
-    return redirect(url_for('index'))
-
-
 def join_jukebox(name, password):
     """Join a jukebox.
 
@@ -147,7 +119,7 @@ def join_jukebox(name, password):
         return render_template('index.html', name=name, error=error)
 
     create_session(name)
-    return redirect('/{name}'.format(name=name))
+    return render_template('jukebox.html')
 
 
 def create_jukebox(name, password, party_mode):
@@ -166,7 +138,7 @@ def create_jukebox(name, password, party_mode):
         return render_template('index.html', name=name, error=error)
 
     create_session(name)
-    return redirect('/{name}'.format(name=name))
+    return render_template('jukebox.html')
 
 
 #############################
