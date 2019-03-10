@@ -8,7 +8,8 @@
     <div class="vertical-align">
         <div class="container">
             <div>
-                <form id="info" style="align-items: center; display: flex; padding-top: 18vh; flex-wrap: wrap;" action="{{ url_for('index') }}" method="post">
+                <form id="info" style="align-items: center; display: flex; padding-top: 18vh; flex-wrap: wrap;"
+                      action="{{ url_for('index') }}" method="post">
                     {% if error %}
                         <div style="text-align: center; color: red; width: 100%;">
                             <p><strong>{{ error }}</strong></p>
@@ -26,7 +27,7 @@
                             <div class="form-group sign-in-form">
                                 <label for="roomcode">Room Code</label>
                                 <input name="name" value="{{ name }}" type="text" class="form-control" id="roomcode"
-                                       placeholder="Partay" autocorrect="off" autocomplete="off"
+                                       placeholder="PARTAY" autocorrect="off" autocomplete="off"
                                        maxlength="10" style="text-transform:uppercase">
                                 <br>
                                 <label for="password">Password</label>
