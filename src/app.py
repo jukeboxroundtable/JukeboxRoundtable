@@ -70,7 +70,7 @@ def index():
 
         name = name.upper()
         if request.form.get('create'):
-            return create_jukebox(name, password)
+            return create_jukebox(name, password, 'party' in request.form)
         elif request.form.get('join'):
             return join_jukebox(name, password)
 
@@ -150,17 +150,18 @@ def join_jukebox(name, password):
     return redirect('/{name}'.format(name=name))
 
 
-def create_jukebox(name, password):
+def create_jukebox(name, password, party_mode):
     """Create a jukebox.
 
     Args:
         name (str): The name of the jukebox.
         password (str): The password of the jukebox.
+        party_mode (bool): True if party_mode on, False otherwise
 
     Returns:
         The jukebox page if authorization successful, otherwise the homepage.
     """
-    error = db.add_jukebox(name, password, True)
+    error = db.add_jukebox(name, password, party_mode)
     if error:
         return render_template('index.html', name=name, error=error)
 
