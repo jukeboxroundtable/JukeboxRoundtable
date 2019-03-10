@@ -69,9 +69,9 @@ def index():
             return render_template('index.html', name=name, error=error)
 
         name = name.upper()
-        if request.form.get('create'):
+        if 'create' in request.form:
             return create_jukebox(name, password, 'party' in request.form)
-        elif request.form.get('join'):
+        elif 'join' in request.form:
             return join_jukebox(name, password)
 
         return render_template('index.html')
