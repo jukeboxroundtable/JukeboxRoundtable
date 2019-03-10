@@ -2,24 +2,32 @@
 {% block content %}
     <div class="container">
         <div class="logo">
-            <center>
-                <img src="/static/img/jukeboxlogo.png" class="img-responsive" alt="Logo">
-            </center>
+            <img class="center" src="/static/img/jukeboxlogo.png" class="img-responsive" alt="Logo">
         </div>
     </div>
     <div class="vertical-align">
         <div class="container">
             <div>
-                {% if error %}
-                    <p><strong>{{ error }}</strong></p>
-                {% endif %}
-                <form id="info" style="align-items: center; display: flex; padding-top: 20vh; flex-wrap: wrap;" action="{{ url_for('index') }}" method="post">
+                <form id="info" style="align-items: center; display: flex; padding-top: 18vh; flex-wrap: wrap;"
+                      action="{{ url_for('index') }}" method="post">
+                    {% if error %}
+                        <div style="text-align: center; color: red; width: 100%;">
+                            <p><strong>{{ error }}</strong></p>
+                        </div>
+                    {% endif %}
+                    <div class="custom-control custom-switch" style="width: 100%; text-align: center; padding: 2vh;">
+                        <label class="custom-control-label" for="party-mode">
+                            Enable Party Mode
+                            (<a href="{{ url_for('about') }}">What is this?</a>)
+                        </label>
+                        <input type="checkbox" class="custom-control-input" id="party-mode" name="party">
+                    </div>
                     <div class="form-layout">
                         <div class="panel">
                             <div class="form-group sign-in-form">
                                 <label for="roomcode">Room Code</label>
                                 <input name="name" value="{{ name }}" type="text" class="form-control" id="roomcode"
-                                       placeholder="Partay" autocorrect="off" autocomplete="off"
+                                       placeholder="PARTAY" autocorrect="off" autocomplete="off"
                                        maxlength="10" style="text-transform:uppercase">
                                 <br>
                                 <label for="password">Password</label>

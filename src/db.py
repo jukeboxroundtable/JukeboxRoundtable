@@ -26,7 +26,7 @@ class Firebase:
             "token_uri": os.environ['FIREBASE_TOKEN_URI'],
         })
 
-        firebase_admin.initialize_app(
+        self.app = firebase_admin.initialize_app(
             self.cred,
             options={
                 "databaseURL": os.environ['FIREBASE_DATABASE'],
@@ -62,11 +62,7 @@ class Firebase:
                           remote database server.
 
         Returns:
-
-        TODO:
-            - Update return type. Maybe True if succeeds, false otherwise?
-              Raise an error if failure?
-            - Store passcode only if it is not empty.
+            An error message if there was an error, otherwise None.
         """
         ref = db.reference('/')
 
@@ -90,8 +86,6 @@ class Firebase:
                     'party_mode': party
                 }
             })
-
-        return None
 
     def remove_jukebox(self, name):
         """Remove the jukebox with the given name from the database.
