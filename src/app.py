@@ -1,8 +1,7 @@
 import os
 import uuid
 
-from flask import Flask, render_template, request, redirect, abort, session, \
-    url_for
+from flask import Flask, render_template, request, abort, session
 
 from src.db import Firebase
 
@@ -32,8 +31,10 @@ def csrf_protect():
 
 
 def generate_csrf_token():
+    print("Before", session)
     if '_csrf_token' not in session:
         session['_csrf_token'] = uuid.uuid4().hex
+    print("After", session)
     return session['_csrf_token']
 
 
