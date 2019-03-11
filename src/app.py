@@ -25,6 +25,8 @@ def csrf_protect():
     """Protect against Cross-Site Forgery attacks."""
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
+        print("TOKEN:", token)
+        print("FORM_TOKEN", request.form.get('_csrf_token'))
         if not token or token != request.form.get('_csrf_token'):
             abort(403)
 
