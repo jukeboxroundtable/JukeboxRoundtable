@@ -44,7 +44,8 @@ app.jinja_env.globals['csrf_token'] = generate_csrf_token
 #############################
 @socketio.on('connect')
 def test_connect():
-    send('Server connected')
+    emit('news', {'hello': 'world'})
+    print('Connected!')
 
 
 #############################
