@@ -2,11 +2,13 @@ import os
 import uuid
 
 from flask import Flask, render_template, request, abort, session
+from flask_socketio import SocketIO, emit, send
 
 from src.db import Firebase
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
+socketio = SocketIO(app)
 # src.permanent_session_lifetime = datetime.timedelta(minutes=10)
 # src.session_cookie_secure = True
 
@@ -24,21 +26,25 @@ def csrf_protect():
     """Protect against Cross-Site Forgery attacks."""
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
-        print("TOKEN:", token)
-        print("FORM_TOKEN", request.form.get('_csrf_token'))
         if not token or token != request.form.get('_csrf_token'):
             abort(403)
 
 
 def generate_csrf_token():
-    print("Before", session)
     if '_csrf_token' not in session:
         session['_csrf_token'] = uuid.uuid4().hex
-    print("After", session)
     return session['_csrf_token']
 
 
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
+
+
+#############################
+#          Sockets          #
+#############################
+@socketio.on('connect')
+def test_connect():
+    send('Server connected')
 
 
 #############################
@@ -163,4 +169,4 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    socketio.run(app, debug=True)

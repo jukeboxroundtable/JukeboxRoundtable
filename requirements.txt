@@ -4,3 +4,5 @@ firebase_admin
 nose2
 bcrypt
 flask_login
+flask_socketio
+eventlet
