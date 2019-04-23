@@ -3,6 +3,8 @@ import uuid
 
 from flask import Flask, render_template, request, abort, session
 from flask_socketio import SocketIO, emit, send
+import urllib.request
+from bs4 import BeautifulSoup
 
 from src.db import Firebase
 
@@ -149,6 +151,28 @@ def create_jukebox(name, password, party_mode):
 
     create_session(name)
     return render_template('jukebox.html')
+
+
+def parse_id(input):
+    return input.split('/watch?v=', 1)[1]
+
+
+def song_search(text):
+    query = urllib.parse.quote(text)
+    url = "https://www.youtube.com/results?search_query=" + query
+    response = urllib.request.urlopen(url)
+    html = response.read()
+    soup = BeautifulSoup(html, 'html.parser')
+
+    for vid in soup.findAll(attrs={'class': 'yt-uix-tile-link'}):
+        href = vid['href']
+        if '/watch?v=' in href:
+            vid_id = parse_id(href)
+
+            print("vid_id: " + vid_id)
+            print('Title: ' + vid['title'])
+            print('Thumbnail: ' + 'https://i.ytimg.com/vi/' + vid_id + '/default.jpg')
+            print('URL: ' + 'https://www.youtube.com' + href)
 
 
 #############################

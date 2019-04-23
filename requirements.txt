@@ -6,3 +6,4 @@ bcrypt
 flask_login
 flask_socketio
 eventlet
+bs4
