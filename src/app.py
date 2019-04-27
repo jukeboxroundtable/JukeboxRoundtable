@@ -164,15 +164,20 @@ def song_search(text):
     html = response.read()
     soup = BeautifulSoup(html, 'html.parser')
 
+    json_out = []
     for vid in soup.findAll(attrs={'class': 'yt-uix-tile-link'}):
         href = vid['href']
         if '/watch?v=' in href:
             vid_id = parse_id(href)
-
-            print("vid_id: " + vid_id)
-            print('Title: ' + vid['title'])
-            print('Thumbnail: ' + 'https://i.ytimg.com/vi/' + vid_id + '/default.jpg')
-            print('URL: ' + 'https://www.youtube.com' + href)
+            json_out.append(
+                {
+                    'id': vid_id,
+                    'title': vid['title'],
+                    'thumbnail': 'https://i.ytimg.com/vi/' + vid_id + '/default.jpg',
+                    'url': 'https://www.youtube.com' + href
+                }
+            )
+    return json_out
 
 
 #############################
