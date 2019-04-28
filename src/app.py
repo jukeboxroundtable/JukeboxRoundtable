@@ -1,18 +1,22 @@
 import os
+import urllib.request
 import uuid
 
-from flask import Flask, render_template, request, abort, session
-from flask_socketio import SocketIO, emit, send
-import urllib.request
 from bs4 import BeautifulSoup
+from flask import Flask, render_template, request, abort, session
+from flask_socketio import SocketIO, emit
 
 from src.db import Firebase
+from src.about import about
+from src.error import error
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
+
+app.register_blueprint(about)
+app.register_blueprint(error)
+
 socketio = SocketIO(app)
-# src.permanent_session_lifetime = datetime.timedelta(minutes=10)
-# src.session_cookie_secure = True
 
 db = Firebase()
 
@@ -155,11 +159,13 @@ def create_jukebox(name, password, party_mode):
     return render_template('jukebox.html')
 
 
-def parse_id(input):
-    return input.split('/watch?v=', 1)[1]
-
-
+#############################
+#        Youtube API        #
+#############################
 def song_search(text):
+    def parse_id(string):
+        return string.split('/watch?v=', 1)[1]
+
     query = urllib.parse.quote(text)
     url = "https://www.youtube.com/results?search_query=" + query
     response = urllib.request.urlopen(url)
@@ -180,24 +186,6 @@ def song_search(text):
                 }
             )
     return json_out
-
-
-#############################
-#           About           #
-#############################
-@app.route('/about')
-def about():
-    """Show the about page."""
-    return render_template('about.html')
-
-
-#############################
-#       Error Routes        #
-#############################
-@app.errorhandler(404)
-def page_not_found(e):
-    """Show the 404 page."""
-    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
