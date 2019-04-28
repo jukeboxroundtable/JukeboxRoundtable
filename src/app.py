@@ -28,6 +28,8 @@ def csrf_protect():
         token = session.pop('_csrf_token', None)
         if not token or token != request.form.get('_csrf_token'):
             abort(403)
+        else:
+            session['token'] = uuid.uuid4().hex
 
 
 def generate_csrf_token():
@@ -61,7 +63,9 @@ def create_session(name):
         name (str): The name of a jukebox the user joined.
     """
     session['party'] = name
-    session['token'] = uuid.uuid4().hex
+
+    if 'token' not in session:
+        session['token'] = uuid.uuid4().hex
 
 
 #############################
@@ -128,7 +132,6 @@ def join_jukebox(name, password):
     if error:
         return render_template('index.html', name=name, error=error)
 
-    create_session(name)
     return render_template('jukebox.html')
 
 
@@ -143,11 +146,10 @@ def create_jukebox(name, password, party_mode):
     Returns:
         The jukebox page if authorization successful, otherwise the homepage.
     """
-    error = db.add_jukebox(name, password, party_mode)
+    error = db.add_jukebox(name, password, party_mode, session.get('token'))
     if error:
         return render_template('index.html', name=name, error=error)
 
-    create_session(name)
     return render_template('jukebox.html')
 
 

@@ -49,13 +49,14 @@ class Firebase:
         """
         return db.reference("/{name}".format(name=name)).get()
 
-    def add_jukebox(self, name, passcode, party):
+    def add_jukebox(self, name, passcode, party, token):
         """Add a jukebox to the database.
 
         Args:
             name (str): The name of the jukebox
             passcode (str): The password of the jukebox. May be an empty string.
             party (bool): Whether the jukebox is in party mode.
+            token (str): A hex representation of the host's token.
 
         Raises:
             ApiCallError: If an error occurs while communicating with the
@@ -77,13 +78,15 @@ class Firebase:
             ref.update({
                 name: {
                     'password': password,
-                    'party_mode': party
+                    'party_mode': party,
+                    'host': token,
                 }
             })
         else:
             ref.update({
                 name: {
-                    'party_mode': party
+                    'party_mode': party,
+                    'host': token,
                 }
             })
 
