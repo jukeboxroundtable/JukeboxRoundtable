@@ -9,4 +9,8 @@ $(document).ready(function () {
         e.preventDefault();
         socket.emit('song_search', {search: $('#song_search_text').val()});
     });
+
+    socket.on('search_results', function (data) {
+        console.log(data);
+    })
 });

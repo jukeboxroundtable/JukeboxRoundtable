@@ -167,10 +167,7 @@ def song_search(text):
     def parse_id(string):
         return string.split('/watch?v=', 1)[1]
 
-    print("Here!")
-    print(text)
-
-    query = urllib.parse.quote(text)
+    query = urllib.parse.quote(text['search'])
     url = "https://www.youtube.com/results?search_query=" + query
     response = urllib.request.urlopen(url)
     html = response.read()
@@ -189,7 +186,7 @@ def song_search(text):
                     'url': 'https://www.youtube.com' + href
                 }
             )
-    return json_out
+    socketio.emit('search_results', {'data': json_out})
 
 
 if __name__ == '__main__':
