@@ -7,14 +7,14 @@ from flask import Flask, render_template, request, abort, session
 from flask_socketio import SocketIO, emit
 
 from src.db import Firebase
-from src.about import about
-from src.error import error
+from src.about import about_blueprint
+from src.error import error_blueprint
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
 
-app.register_blueprint(about)
-app.register_blueprint(error)
+app.register_blueprint(about_blueprint)
+app.register_blueprint(error_blueprint)
 
 socketio = SocketIO(app)
 
