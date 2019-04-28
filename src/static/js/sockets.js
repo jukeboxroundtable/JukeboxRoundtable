@@ -12,5 +12,5 @@ $(document).ready(function () {
 
     socket.on('search_results', function (data) {
         console.log(data);
-    })
+    });
 });
