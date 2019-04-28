@@ -1,143 +1,147 @@
 {% extends "layout.html" %}
+
+{% block scripts %}
+    <script src="/static/js/sockets.js"></script>{% endblock scripts %}
+
 {% block content %}
-<div class="container">
-    <h4>
-        <a href="{{ url_for('index') }}" style="color: blue;">
-            Exit Party
-        </a>
-    </h4>
-</div>
-
-<div class="jumbotron">
-    <iframe width="420" height="315" class="center"
-        src="https://www.youtube.com/embed/_FrOQC-zEog">
-    </iframe>
-
-    <div class="table-responsive col-md-6">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">Thumbnail</th>
-              <th scope="col">Song Title</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Title 1</td>
-              <td>Pic 1</td>
-            </tr>
-              <tr>
-              <th scope="row">2</th>
-              <td>Title 2</td>
-              <td>Pic 2</td>
-            </tr>
-              <tr>
-              <th scope="row">3</th>
-              <td>Title 3</td>
-              <td>Pic 3</td>
-            </tr>
-              <tr>
-              <th scope="row">4</th>
-              <td>Title 4</td>
-              <td>Pic 4</td>
-            </tr>
-              <tr>
-              <th scope="row">5</th>
-              <td>Title 5</td>
-              <td>Pic 5</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="container">
+        <h4>
+            <a href="{{ url_for('index') }}" style="color: blue;">
+                Exit Party
+            </a>
+        </h4>
     </div>
-</div>
 
-<form id="info" method="post">
-    <div class="form-layout">
-        <div class="panel">
-            <div class="form-group sign-in-form">
-                <label for="searchfield">Search Songs</label>
-                <input name="name" value="{{ name }}" type="text" class="form-control" id="searchfield"
-                       placeholder="Search" autocorrect="off" autocomplete="off">
-            </div>
-            <div style="text-align: center;">
-                <input id="Search" name="search" type="submit" class="btn-block btn-primary"
-                       style="text-align:center;" value="Search">
-            </div>
+    <div class="jumbotron">
+        <iframe width="420" height="315" class="center"
+                src="https://www.youtube.com/embed/_FrOQC-zEog">
+        </iframe>
+
+        <div class="table-responsive col-md-6">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">Song Title</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Title 1</td>
+                    <td>Pic 1</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Title 2</td>
+                    <td>Pic 2</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Title 3</td>
+                    <td>Pic 3</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>Title 4</td>
+                    <td>Pic 4</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>Title 5</td>
+                    <td>Pic 5</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</form>
 
-<br>
-
-<div class="container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Thumbnail</th>
-          <th scope="col">Song Title</th>
-          <th scope="col">Add Song</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Title 1</td>
-          <td>Pic 1</td>
-          <td>
-            <div style="text-align: center;">
-                <input id="add1" name="add1" type="submit" class="btn-block btn-primary"
-                   style="text-align:center;" value="Add">
+    <form id="new_song">
+        <div class="form-layout">
+            <div class="panel">
+                <div class="form-group sign-in-form">
+                    <label for="searchfield">Search Songs</label>
+                    <input name="name" type="text" class="form-control" id="song_search_text"
+                           placeholder="Search" autocorrect="off" autocomplete="off">
+                </div>
+                <div style="text-align: center;">
+                    <input id="song_search" name="search" type="submit" class="btn-block btn-primary"
+                           style="text-align:center;" value="Search">
+                </div>
             </div>
-          </td>
-        </tr>
-          <tr>
-          <th scope="row">2</th>
-          <td>Title 2</td>
-          <td>Pic 2</td>
-            <td>
-                <div style="text-align: center;">
-                    <input id="add2" name="add2" type="submit" class="btn-block btn-primary"
-                       style="text-align:center;" value="Add">
-                </div>
-            </td>
-        </tr>
-          <tr>
-          <th scope="row">3</th>
-          <td>Title 3</td>
-          <td>Pic 3</td>
-            <td>
-                <div style="text-align: center;">
-                    <input id="add3" name="add3" type="submit" class="btn-block btn-primary"
-                       style="text-align:center;" value="Add">
-                </div>
-            </td>
-        </tr>
-          <tr>
-          <th scope="row">4</th>
-          <td>Title 4</td>
-          <td>Pic 4</td>
-            <td>
-                <div style="text-align: center;">
-                    <input id="add4" name="add4" type="submit" class="btn-block btn-primary"
-                       style="text-align:center;" value="Add">
-                </div>
-            </td>
-        </tr>
-          <tr>
-          <th scope="row">5</th>
-          <td>Title 5</td>
-          <td>Pic 5</td>
-            <td>
-                <div style="text-align: center;">
-                    <input id="add5" name="add5" type="submit" class="btn-block btn-primary"
-                       style="text-align:center;" value="Add">
-                </div>
-            </td>
-        </tr>
-      </tbody>
-    </table>
-</div>
+        </div>
+    </form>
+
+    <br>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Thumbnail</th>
+                <th scope="col">Song Title</th>
+                <th scope="col">Add Song</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Title 1</td>
+                <td>Pic 1</td>
+                <td>
+                    <div style="text-align: center;">
+                        <input id="add1" name="add1" type="submit" class="btn-block btn-primary"
+                               style="text-align:center;" value="Add">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Title 2</td>
+                <td>Pic 2</td>
+                <td>
+                    <div style="text-align: center;">
+                        <input id="add2" name="add2" type="submit" class="btn-block btn-primary"
+                               style="text-align:center;" value="Add">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Title 3</td>
+                <td>Pic 3</td>
+                <td>
+                    <div style="text-align: center;">
+                        <input id="add3" name="add3" type="submit" class="btn-block btn-primary"
+                               style="text-align:center;" value="Add">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td>Title 4</td>
+                <td>Pic 4</td>
+                <td>
+                    <div style="text-align: center;">
+                        <input id="add4" name="add4" type="submit" class="btn-block btn-primary"
+                               style="text-align:center;" value="Add">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">5</th>
+                <td>Title 5</td>
+                <td>Pic 5</td>
+                <td>
+                    <div style="text-align: center;">
+                        <input id="add5" name="add5" type="submit" class="btn-block btn-primary"
+                               style="text-align:center;" value="Add">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock content %}

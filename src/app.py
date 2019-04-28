@@ -16,7 +16,8 @@ app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
 app.register_blueprint(about_blueprint)
 app.register_blueprint(error_blueprint)
 
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
+# socketio = SocketIO(app)
 
 db = Firebase()
 
@@ -52,7 +53,6 @@ app.jinja_env.globals['csrf_token'] = generate_csrf_token
 #############################
 @socketio.on('connect')
 def test_connect():
-    emit('news', {'hello': 'world'})
     print('Connected!')
 
 
@@ -162,9 +162,13 @@ def create_jukebox(name, password, party_mode):
 #############################
 #        Youtube API        #
 #############################
+@socketio.on('song_search')
 def song_search(text):
     def parse_id(string):
         return string.split('/watch?v=', 1)[1]
+
+    print("Here!")
+    print(text)
 
     query = urllib.parse.quote(text)
     url = "https://www.youtube.com/results?search_query=" + query
