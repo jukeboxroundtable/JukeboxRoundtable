@@ -1,4 +1,5 @@
 import unittest
+import uuid
 
 import firebase_admin
 
@@ -49,7 +50,7 @@ class AppTest(unittest.TestCase):
         self.assertEqual(app.Firebase.errors['not_exists'], app.db.auth_user(name, password))
 
         self.assertEqual(None, app.db.add_jukebox(name, password, party=True))
-        self.assertEqual(app.Firebase.errors['exists'], app.db.add_jukebox(name, password, party=True))
+        self.assertEqual(app.Firebase.errors['exists'], app.db.add_jukebox(name, password, party=True, token=uuid.uuid4().hex))
         self.assertNotEqual(None, app.db.get_jukebox(name))
         self.assertEqual(None, app.db.auth_user(name, password))
         self.assertEqual(app.Firebase.errors['bad_password'], app.db.auth_user(name, ''))
@@ -65,7 +66,7 @@ class AppTest(unittest.TestCase):
         self.assertEqual(app.Firebase.errors['not_exists'], app.db.auth_user(name, password))
 
         self.assertEqual(None, app.db.add_jukebox(name, password, party=True))
-        self.assertEqual(app.Firebase.errors['exists'], app.db.add_jukebox(name, password, party=True))
+        self.assertEqual(app.Firebase.errors['exists'], app.db.add_jukebox(name, password, party=True, token=uuid.uuid4().hex))
         self.assertNotEqual(None, app.db.get_jukebox(name))
         self.assertEqual(None, app.db.auth_user(name, password))
 
