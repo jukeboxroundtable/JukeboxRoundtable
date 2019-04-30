@@ -3,7 +3,8 @@ import urllib.request
 import uuid
 
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, request, abort, session
+from flask import Flask, render_template, request, abort, session, redirect, \
+    url_for
 from flask_socketio import SocketIO, emit
 
 from src.db import Firebase
@@ -74,6 +75,14 @@ def create_session(name):
         session['token'] = uuid.uuid4().hex
 
 
+def delete_session():
+    """Delete a session.
+
+    Sessions should now only contain a uid.
+    """
+    session.pop('party')
+
+
 #############################
 #         Home Page         #
 #############################
@@ -101,6 +110,13 @@ def index():
             return render_template('jukebox.html')
 
         return render_template('index.html')
+
+
+@app.route('/_remove_session')
+def clear_session():
+    delete_session()
+
+    return redirect(url_for('index'))
 
 
 def validate_input(name):
