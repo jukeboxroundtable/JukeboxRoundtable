@@ -1,5 +1,4 @@
 import os
-import time
 import urllib.request
 import uuid
 
@@ -36,8 +35,8 @@ def csrf_protect():
         token = session.pop('_csrf_token', None)
         if not token or token != request.form.get('_csrf_token'):
             abort(403)
-        else:
-            session['token'] = uuid.uuid4().hex
+        else:  # Might need to check if token already exists
+            session['token'] = uuid.uuid4().hex  # What is this for?
 
 
 def generate_csrf_token():
