@@ -1,4 +1,5 @@
 import os
+import time
 import urllib.request
 import uuid
 
@@ -16,8 +17,8 @@ app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
 app.register_blueprint(about_blueprint)
 app.register_blueprint(error_blueprint)
 
-socketio = SocketIO(app, async_mode='eventlet')
-# socketio = SocketIO(app)
+# socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app)
 
 db = Firebase()
 
@@ -156,7 +157,7 @@ def create_jukebox(name, password, party_mode):
     if error:
         return render_template('index.html', name=name, error=error)
 
-    return render_template('jukebox.html')
+    return render_template('jukebox.html', host=True)
 
 
 #############################
@@ -186,8 +187,8 @@ def song_search(text):
                     'url': 'https://www.youtube.com' + href
                 }
             )
-    socketio.emit('search_results', {'data': json_out})
+    emit('search_results', {'data': json_out})
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app)
