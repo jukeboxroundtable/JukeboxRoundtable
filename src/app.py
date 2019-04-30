@@ -90,6 +90,7 @@ def index():
             return render_template('index.html', name=name, error=error)
 
         name = name.upper()
+        create_session(name)
         if 'create' in request.form:
             return create_jukebox(name, password, 'party' in request.form)
         elif 'join' in request.form:
