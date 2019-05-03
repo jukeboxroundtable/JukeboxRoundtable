@@ -45,3 +45,8 @@ img {
 .sign-in-form {
     text-transform: uppercase;
 }
+
+#footer {
+    position: relative;
+    margin-top: 20px;
+}
