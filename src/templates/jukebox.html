@@ -5,11 +5,9 @@
 
 {% block content %}
     <div class="container">
-        <h4>
-            <a href="{{ url_for('clear_session') }}" style="color: blue;">
-                <img src="/static/img/exitparty.png" class="img-responsive" alt="Exit Party">
-            </a>
-        </h4>
+        <a href="{{ url_for('clear_session') }}">
+            <img src="/static/img/exitparty.png" class="img-responsive" alt="Exit Party">
+        </a>
     </div>
 
     <div class="jumbotron">
