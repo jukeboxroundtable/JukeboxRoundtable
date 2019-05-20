@@ -27,31 +27,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Pic 1</td>
-                    <td>Title 1</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Pic 2</td>
-                    <td>Title 2</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Pic 3</td>
-                    <td>Title 3</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Pic 4</td>
-                    <td>Title 4</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>Pic 5</td>
-                    <td>Title 5</td>
-                </tr>
+                {% for n in range(5) %}
+                    <tr>
+                        <th scope="row">{{ n }}</th>
+                        <td>Pic {{ n }}</td>
+                        <td>Title {{ n }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
