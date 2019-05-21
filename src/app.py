@@ -112,10 +112,10 @@ def index():
         if session.get('host'):
             party = session.get('party')
             db.remove_jukebox(party)
-            leave_room(party)
+            # leave_room(party)
             delete_session()
 
-            emit('party_destroyed', party, room=party)
+            emit('party_destroyed', party, broadcast=True)  # Change to room based
             return render_template('index.html')
 
         return render_template('jukebox.html')
@@ -170,7 +170,7 @@ def join_jukebox(name, password):
     if error:
         return render_template('index.html', name=name, error=error)
 
-    join_room(name)
+    # join_room(name)
     return render_template('jukebox.html')
 
 
@@ -189,7 +189,7 @@ def create_jukebox(name, password, party_mode):
     if error:
         return render_template('index.html', name=name, error=error)
 
-    join_room(name)
+    # join_room(name)
     return render_template('jukebox.html', host=True)
 
 
