@@ -13,4 +13,9 @@ $(document).ready(function () {
     socket.on('search_results', function (data) {
         console.log(data);
     });
+
+    socket.on('party_destroyed', function (data) {
+        console.log("Party destroyed!");
+        $.get("/_remove_session");
+    });
 });

@@ -110,9 +110,14 @@ def index():
         return render_template('index.html')
     elif request.method == 'DELETE':
         if session.get('host'):
-            db.remove_jukebox(session.get('party'))
+            party = session.get('party')
+            db.remove_jukebox(party)
+            delete_session()
 
-        return render_template('index.html')
+            emit('party_destroyed', party)
+            return render_template('index.html')
+
+        return render_template('jukebox.html')
     elif request.method == 'GET':
         if 'party' in session:
             return render_template('jukebox.html')
