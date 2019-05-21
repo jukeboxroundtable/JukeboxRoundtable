@@ -5,7 +5,7 @@ import uuid
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request, abort, session, redirect, \
     url_for
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 from src.db import Firebase
 from src.about import about_blueprint
@@ -112,14 +112,16 @@ def index():
         if session.get('host'):
             party = session.get('party')
             db.remove_jukebox(party)
+            leave_room(party)
             delete_session()
 
-            emit('party_destroyed', party)
+            emit('party_destroyed', party, room=party)
             return render_template('index.html')
 
         return render_template('jukebox.html')
     elif request.method == 'GET':
         if 'party' in session:
+            join_room(session.get('party'))
             return render_template('jukebox.html')
 
         return render_template('index.html')
@@ -168,6 +170,7 @@ def join_jukebox(name, password):
     if error:
         return render_template('index.html', name=name, error=error)
 
+    join_room(name)
     return render_template('jukebox.html')
 
 
@@ -186,6 +189,7 @@ def create_jukebox(name, password, party_mode):
     if error:
         return render_template('index.html', name=name, error=error)
 
+    join_room(name)
     return render_template('jukebox.html', host=True)
 
 
