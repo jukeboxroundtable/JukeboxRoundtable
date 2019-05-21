@@ -17,8 +17,8 @@ app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
 app.register_blueprint(about_blueprint)
 app.register_blueprint(error_blueprint)
 
-# socketio = SocketIO(app, async_mode='eventlet')
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
+# socketio = SocketIO(app)
 
 db = Firebase()
 
@@ -115,13 +115,14 @@ def index():
             # leave_room(party)
             delete_session()
 
-            emit('party_destroyed', party, broadcast=True)  # Change to room based
+            print("Emitting...")
+            emit('party_destroyed', party, namespace='/')  # Change to room based
             return render_template('index.html')
 
         return render_template('jukebox.html')
     elif request.method == 'GET':
         if 'party' in session:
-            join_room(session.get('party'))
+            # join_room(session.get('party'))
             return render_template('jukebox.html')
 
         return render_template('index.html')

@@ -3,7 +3,6 @@
 {% block scripts %}
     {% if host %}
         <script>
-            console.log("HERE");
             $(window).bind('beforeunload', function () {
                 $.ajax({
                     type: 'DELETE',

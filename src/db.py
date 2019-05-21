@@ -49,7 +49,7 @@ class Firebase:
         """
         return db.reference("/{name}".format(name=name)).get()
 
-    def add_jukebox(self, name, passcode, party, token):
+    def add_jukebox(self, name, passcode, party, token=None):
         """Add a jukebox to the database.
 
         Args:
@@ -79,14 +79,12 @@ class Firebase:
                 name: {
                     'password': password,
                     'party_mode': party,
-                    'host': token,
                 }
             })
         else:
             ref.update({
                 name: {
                     'party_mode': party,
-                    'host': token,
                 }
             })
 
