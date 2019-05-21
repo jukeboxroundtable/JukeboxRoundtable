@@ -60,7 +60,7 @@ def test_connect():
 #############################
 #          Sessions         #
 #############################
-def create_session(name):
+def create_session(name, host):
     """Create a new session.
 
     Sessions should contain a key for the party name and a key for a randomly
@@ -70,6 +70,7 @@ def create_session(name):
         name (str): The name of a jukebox the user joined.
     """
     session['party'] = name
+    session['host'] = host
 
     if 'token' not in session:
         session['token'] = uuid.uuid4().hex
@@ -81,12 +82,13 @@ def delete_session():
     Sessions should now only contain a uid.
     """
     session.pop('party')
+    session.pop('host')
 
 
 #############################
 #         Home Page         #
 #############################
-@app.route('/', methods=('GET', 'POST'))
+@app.route('/', methods=('GET', 'POST', 'DELETE'))
 def index():
     """Returns the homepage."""
     if request.method == 'POST':
@@ -98,11 +100,17 @@ def index():
             return render_template('index.html', name=name, error=error)
 
         name = name.upper()
-        create_session(name)
         if 'create' in request.form:
+            create_session(name, host=True)
             return create_jukebox(name, password, 'party' in request.form)
         elif 'join' in request.form:
+            create_session(name, host=False)
             return join_jukebox(name, password)
+
+        return render_template('index.html')
+    elif request.method == 'DELETE':
+        if session.get('host'):
+            db.remove_jukebox(session.get('party'))
 
         return render_template('index.html')
     elif request.method == 'GET':

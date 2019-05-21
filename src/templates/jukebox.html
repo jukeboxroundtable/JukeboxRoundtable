@@ -1,7 +1,19 @@
 {% extends "layout.html" %}
 
 {% block scripts %}
-    <script src="/static/js/sockets.js?3"></script>{% endblock scripts %}
+    {% if host %}
+        <script>
+            console.log("HERE");
+            $(window).bind('beforeunload', function () {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{ url_for('index') }}"
+                });
+            });
+        </script>
+    {% endif %}
+    <script src="/static/js/sockets.js?3"></script>
+{% endblock scripts %}
 
 {% block content %}
     <div class="container">

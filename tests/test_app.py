@@ -38,7 +38,7 @@ class AppTest(unittest.TestCase):
     def test_create_session(self):
         with app.app.test_request_context('/'):
             name = 'test'
-            app.create_session(name)
+            app.create_session(name, host=True)
             self.assertEqual(name, app.session.get('party', None))
             self.assertTrue('token' in app.session)
 
