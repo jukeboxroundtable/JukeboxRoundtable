@@ -24,3 +24,7 @@
       * FIREBASE_TOKEN_URI
       * FIREBASE_DATABASE
         * This one can be found on Firebase (ex. FIREBASE_DATABASE=https://jukeboxrt-10000.firebaseio.com/)
+        
+# Deployment
+* Our Jukebox Roundtable is being deployed on Heroku.
+* Deployment on Heroku can be set up for a new user if desired, though it should be set up through a different account.
