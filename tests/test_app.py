@@ -118,6 +118,9 @@ class AppTest(unittest.TestCase):
         app.db.remove_jukebox(name)
         self.assertEqual(None, app.db.get_jukebox(name))
 
+    def test_connect(self):
+        self.assertEqual(None, app.test_connect())
+
 
 if __name__ == '__main__':
     unittest.main()
