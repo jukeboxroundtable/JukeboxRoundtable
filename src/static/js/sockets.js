@@ -11,6 +11,7 @@ $(document).ready(function () {
     });
 
     socket.on('search_results', function (data) {
+        document.getElementById("data").innerHTML = data;
         console.log(data);
     });
 
