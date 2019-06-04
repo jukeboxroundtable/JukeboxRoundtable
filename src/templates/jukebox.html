@@ -23,9 +23,25 @@
                         search: $('#song_search_text').val()
                     },
                     function (data) {
-                        console.log(data);
+                        let div = document.getElementById('search_results');
+                        while(div.firstChild) {
+                            div.removeChild(div.firstChild);
+                        }
+
+                        for (const result of data) {
+                            console.log(result);
+                            $('<div/>', {
+                                'class': 'card result',
+                                'id': result.id,
+                                'html': '<img class="card-img-top" src="' + result.thumbnail + '" alt="' + result.title + '"><div class="card-body"><p class="card-text">' + result.title + '</p></div>'
+                            }).appendTo('#search_results');
+                        }
                     }
                 );
+            });
+
+            $('#search_results').on('click', 'div.result', function () {
+                alert($(this));
             });
         });
     </script>
@@ -83,11 +99,5 @@
         </div>
     </form>
 
-    <div class="container">
-        <p id="title0" style="text-align:center;">Search Results</p>
-        <p id="title1" style="text-align:center;"></p>
-        <p id="title2" style="text-align:center;"></p>
-        <p id="title3" style="text-align:center;"></p>
-        <p id="title4" style="text-align:center;"></p>
-    </div>
+    <div id='search_results' class="container"></div>
 {% endblock content %}
