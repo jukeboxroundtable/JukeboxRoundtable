@@ -33,7 +33,7 @@
                             $('<div/>', {
                                 'class': 'card result',
                                 'id': result.id,
-                                'html': '<img class="card-img-top" src="' + result.thumbnail + '" alt="' + result.title + '"><div class="card-body"><p class="card-text">' + result.title + '</p></div>'
+                                'html': '<img class="card-img-top" src="' + result.thumbnail + '" alt="' + result.title + '"><div class="card-body"><p class="card-text">' + result.title + '</p><p style="display:none;">' + result.url + '</p></div>'
                             }).appendTo('#search_results');
                         }
                     }
@@ -41,7 +41,19 @@
             });
 
             $('#search_results').on('click', 'div.result', function () {
-                alert($(this));
+                console.log($(this));
+                let src = jQuery(this).find('img').attr('src');
+                let title = jQuery(this).find('div')
+
+                console.log(src);
+                console.log(title);
+
+                $('<tr/>', {
+                    'id': 1,  // Placeholder
+                    'html': '<th scope="row">1</th>' +
+                        '<td><img src="' + src + '"></td>' +
+                        '<td>4<td>'
+                }).appendTo('#tbody');
             });
         });
     </script>
@@ -70,14 +82,14 @@
                     <th scope="col">Song Title</th>
                 </tr>
                 </thead>
-                <tbody>
-                {% for n in range(5) %}
-                    <tr>
-                        <th scope="row">{{ n }}</th>
-                        <td>Pic {{ n }}</td>
-                        <td>Title {{ n }}</td>
-                    </tr>
-                {% endfor %}
+                <tbody id="tbody">
+{#                {% for n in range(5) %}#}
+{#                    <tr>#}
+{#                        <th scope="row">{{ n }}</th>#}
+{#                        <td>Pic {{ n }}</td>#}
+{#                        <td>Title {{ n }}</td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
                 </tbody>
             </table>
         </div>
