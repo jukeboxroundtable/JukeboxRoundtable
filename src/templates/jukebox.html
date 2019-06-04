@@ -11,7 +11,24 @@
             });
         </script>
     {% endif %}
-    <script src="/static/js/sockets.js?3"></script>
+
+    <script>
+        $(function () {
+            console.log("Hello!");
+
+            $('#new_song').on('submit', function (e) {
+                e.preventDefault();
+                $.get('song_search',
+                    {
+                        search: $('#song_search_text').val()
+                    },
+                    function (data) {
+                        console.log(data);
+                    }
+                );
+            });
+        });
+    </script>
 {% endblock scripts %}
 
 {% block content %}

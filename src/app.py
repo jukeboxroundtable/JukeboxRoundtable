@@ -4,8 +4,7 @@ import uuid
 
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request, abort, session, redirect, \
-    url_for
-from flask_socketio import SocketIO, emit, join_room, leave_room
+    url_for, jsonify
 
 from src.db import Firebase
 from src.about import about_blueprint
@@ -16,9 +15,6 @@ app.secret_key = os.environ.get('APP_SECRET_KEY', uuid.uuid4().hex)
 
 app.register_blueprint(about_blueprint)
 app.register_blueprint(error_blueprint)
-
-socketio = SocketIO(app, async_mode='eventlet')
-# socketio = SocketIO(app)
 
 db = Firebase()
 
@@ -47,14 +43,6 @@ def generate_csrf_token():
 
 
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
-
-
-#############################
-#          Sockets          #
-#############################
-@socketio.on('connect')
-def test_connect():
-    print('Connected!')
 
 
 #############################
@@ -112,11 +100,8 @@ def index():
         if session.get('host'):
             party = session.get('party')
             db.remove_jukebox(party)
-            # leave_room(party)
             delete_session()
 
-            print("Emitting...")
-            emit('party_destroyed', party, namespace='/')  # Change to room based
             return render_template('index.html')
 
         return render_template('jukebox.html')
@@ -197,12 +182,14 @@ def create_jukebox(name, password, party_mode):
 #############################
 #        Youtube API        #
 #############################
-@socketio.on('song_search')
-def song_search(text):
+@app.route('/song_search')
+def song_search():
     def parse_id(string):
         return string.split('/watch?v=', 1)[1]
 
-    query = urllib.parse.quote(text['search'])
+    print(request.args.get('search'))
+
+    query = urllib.parse.quote(request.args.get('search'))
     url = "https://www.youtube.com/results?search_query=" + query
     response = urllib.request.urlopen(url)
     html = response.read()
@@ -221,8 +208,8 @@ def song_search(text):
                     'url': 'https://www.youtube.com' + href
                 }
             )
-    emit('search_results', {'data': json_out})
+    return jsonify(json_out)
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+    app.run(debug=True)
