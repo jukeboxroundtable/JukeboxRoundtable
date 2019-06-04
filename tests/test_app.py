@@ -42,6 +42,16 @@ class AppTest(unittest.TestCase):
             self.assertEqual(name, app.session.get('party', None))
             self.assertTrue('token' in app.session)
 
+    def test_clear_session(self):
+        with app.app.test_request_context('/'):
+            name = 'test'
+            app.create_session(name, host=True)
+            self.assertEqual(name, app.session.get('party', None))
+            self.assertTrue('token' in app.session)
+
+            app.clear_session()
+            self.assertNotEqual(name, app.session.get('party', None))
+
     def test_add_jukebox_auth_user_remove_jukebox_with_password(self):
         name = 'testingWithPassword'
         password = 'testing'
@@ -72,6 +82,44 @@ class AppTest(unittest.TestCase):
 
         app.db.remove_jukebox(name)
         self.assertEqual(None, app.db.get_jukebox(name))
+
+    def test_join_jukebox_exists(self):
+        name = 'testJukeboxName'
+        password = None
+
+        expected = {'party_mode': True}
+
+        # assert this is a new jukebox
+        self.assertEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(app.Firebase.errors['not_exists'], app.db.auth_user(name, password))
+
+        # create the jukebox
+        self.assertEqual(None, app.db.add_jukebox(name, password, party=True, token=uuid.uuid4().hex))
+        self.assertEqual(app.Firebase.errors['exists'],
+                         app.db.add_jukebox(name, password, party=True, token=uuid.uuid4().hex))
+        self.assertNotEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(None, app.db.auth_user(name, password))
+
+        # join the jukebox
+        self.assertEqual(expected, app.db.get_jukebox(name))
+        # self.app.join_jukebox(name, password)
+
+        # remove the jukebox
+        app.db.remove_jukebox(name)
+        self.assertEqual(None, app.db.get_jukebox(name))
+
+    def test_join_jukebox_not_exists(self):
+        name = 'testing_jukebox'
+        password = None
+
+        self.assertEqual(None, app.db.get_jukebox(name))
+        self.assertEqual(app.Firebase.errors['not_exists'], app.db.auth_user(name, password))
+
+        app.db.remove_jukebox(name)
+        self.assertEqual(None, app.db.get_jukebox(name))
+
+    def test_connect(self):
+        self.assertEqual(None, app.test_connect())
 
 
 if __name__ == '__main__':
